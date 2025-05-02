@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="input_box_stroke">#AF8F59A8</color>
+    <color name="input_hint_color">#8954BF</color>
+    <color name="input_background">#EFEFEF</color>
+    <color name="input_text_color">#000000</color>
+
+    <color name="primaryColor">#0D2021</color>
+    <color name="primaryDarkColor">#183B3C</color>
 </resources>

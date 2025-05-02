@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Labor_Management_App</string>
+
+    <!-- Splash Strings -->
+    <string name="splash_text1">ICan Labor Management</string>
+
+    <!-- Login Screen Strings -->
+    <string name="login_text1">Welcome Back,</string>
+    <string name="login_text2">Username</string>
+    <string name="login_text3">Password</string>
+    <string name="login_text4">Forgot Password?</string>
+    <string name="login_text5">Login</string>
+    <string name="login_text6">Create One?</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>

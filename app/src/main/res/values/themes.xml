@@ -5,5 +5,20 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!--    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">-->
+    <!--        <item name="android:windowBackground">@drawable/splash_background</item>-->
+    <!--        <item name="android:windowFullscreen">true</item>-->
+    <!--        <item name="android:windowContentOverlay">@null</item>-->
+    <!--    </style>-->
+
     <style name="Theme.Labor_Management_App" parent="Base.Theme.Labor_Management_App" />
+
+    <style name="Theme.Labor_Management_App.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Labor_Management_App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Labor_Management_App.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
