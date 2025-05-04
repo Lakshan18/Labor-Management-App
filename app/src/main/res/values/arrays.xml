@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="working_areas">
+        <item>Kitchen</item>
+        <item>Stores</item>
+        <item>Production</item>
+        <item>Office</item>
+        <item>Maintenance</item>
+        <item>Cleaning</item>
+    </string-array>
+</resources>

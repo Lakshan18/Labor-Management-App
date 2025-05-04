@@ -20,6 +20,26 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_Add_Labor">Add New Labor</string>
+    <string name="menu_View_Labor">View Labors</string>
+    <string name="menu_labor_attendance">Labor Attendance</string>
+    <string name="menu_payments">Payments</string>
+
+<!-- Add New Labor Section -->
+    <string name="add_new_labor_title">Add New Labor</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="work_information">Work Information</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="email_hint">Email</string>
+    <string name="address_hint">Address</string>
+    <string name="job_role_hint">Job Role</string>
+    <string name="daily_wage_hint">Daily Wage</string>
+    <string name="join_date_hint">Join Date</string>
+    <string name="add_labor_button">Add Labor</string>
+    <string name="name_required">Name is required</string>
+    <string name="phone_required">Phone number is required</string>
+    <string name="email_required">Email is required</string>
+    <string name="labor_added_success">Labor added successfully!</string>
+    <string name="error_saving_labor">Error saving labor data</string>
 </resources>

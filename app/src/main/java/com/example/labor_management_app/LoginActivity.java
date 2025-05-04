@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText usernameField, passwordField; // Changed from TextView to EditText
+    private EditText usernameField, passwordField;
     private Button loginBtn;
 
     @Override
@@ -24,9 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize views
-        usernameField = findViewById(R.id.Edit_Username_inp1); // Match your XML ID
-        passwordField = findViewById(R.id.editTextTextPassword); // Match your XML ID
+        usernameField = findViewById(R.id.Edit_Username_inp1);
+        passwordField = findViewById(R.id.editTextTextPassword);
         loginBtn = findViewById(R.id.loginButton);
 
         loginBtn.setOnClickListener(v -> validateLoginUser());
@@ -48,20 +47,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserInDB(String username, String password) {
-        // Replace with your actual authentication logic
         if (isValidUser(username, password)) {
-            navigateToHome();
+            navigateToHome(username,password);
         } else {
             showLoginError();
         }
     }
 
     private boolean isValidUser(String username, String password) {
-        // Add your real authentication logic here
         return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password);
     }
 
-    private void navigateToHome() {
+    private void navigateToHome(String uname,String pwd) {
+        CustomToast.showToast(this,uname+" & "+ pwd, true);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

@@ -10,4 +10,14 @@
 
     <color name="primaryColor">#0D2021</color>
     <color name="primaryDarkColor">#183B3C</color>
+    <color name="colorPrimaryDark">#1D1D1D</color>
+    <color name="colorPrimaryLight">#F2F2F2</color>
+
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+
+    <color name="primary">#3F51B5</color>
+    <color name="primaryDark">#303F9F</color>
+    <color name="primaryLight">#C5CAE9</color>
+    <color name="inputHintColor">#523C5F</color>
 </resources>

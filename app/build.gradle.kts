@@ -37,7 +37,7 @@ android {
 dependencies {
 
     implementation(libs.appcompat)
-    implementation(libs.material)
+//    implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.lifecycle.livedata.ktx)
@@ -47,4 +47,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation (libs.lifecycle.viewmodel.ktx.v251)
+    implementation ("com.google.android.material:material:1.6.0")
 }

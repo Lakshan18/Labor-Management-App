@@ -12,14 +12,27 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.labor_management_app.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_addNew_labor"
+        android:name="com.example.labor_management_app.ui.addNew_Labor.AddNew_Labor_Fragment"
+        android:label="@string/menu_Add_Labor"
+        tools:layout="@layout/fragment_add_new_labor" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.labor_management_app.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_view_labor"
+        android:name="com.example.labor_management_app.ui.view_labors.View_Labors_Fragment"
+        android:label="@string/menu_View_Labor"
+        tools:layout="@layout/fragment_view_labors" />
+
+    <fragment
+        android:id="@+id/nav_labor_attendance"
+        android:name="com.example.labor_management_app.ui.labor_attendance.Labor_Attendance_Fragment"
+        android:label="@string/menu_labor_attendance"
+        tools:layout="@layout/fragment_labor_attendance"
+        />
+    <fragment
+        android:id="@+id/nav_payments"
+        android:name="com.example.labor_management_app.ui.Payments.Payment_Fragment"
+        android:label="@string/menu_payments"
+        tools:layout="@layout/fragment_payment"
+        />
 </navigation>

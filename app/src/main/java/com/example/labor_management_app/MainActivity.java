@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             handler.post(() -> {
                 loadingText.setText("Ready!");
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                // finish();
+                 finish();
             });
         }).start();
     }

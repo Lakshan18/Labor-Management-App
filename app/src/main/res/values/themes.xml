@@ -21,4 +21,13 @@
     <style name="Theme.Labor_Management_App.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Labor_Management_App.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+<!--    <style name="DropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">-->
+<!--        <item name="boxBackgroundColor">@color/white</item>-->
+<!--        <item name="boxStrokeColor">@color/primaryColor</item>-->
+<!--    </style>-->
+    <style name="ThemeOverlay.Dropdown" parent="">
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
