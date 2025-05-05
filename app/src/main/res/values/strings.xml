@@ -57,4 +57,6 @@
     <string name="labor_ads2">Address Line 2</string>
     <string name="labor_city">City</string>
     <string name="labor_working_area">Working Section</string>
+    <string name="labor_upd_btn">Update Details</string>
+    <string name="labor_pf_btn">Labor Performance</string>
 </resources>
