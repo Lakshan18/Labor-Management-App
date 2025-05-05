@@ -30,6 +30,8 @@
     <string name="personal_information">Personal Information</string>
     <string name="work_information">Work Information</string>
     <string name="full_name_hint">Full Name</string>
+    <string name="nic_no">NIC No</string>
+    <string name="employee_dob">Date Of Birth</string>
     <string name="phone_hint">Phone Number</string>
     <string name="email_hint">Email</string>
     <string name="address_hint">Address</string>
@@ -42,4 +44,17 @@
     <string name="email_required">Email is required</string>
     <string name="labor_added_success">Labor added successfully!</string>
     <string name="error_saving_labor">Error saving labor data</string>
+
+<!-- View Labor Details -->
+    <string name="labor_reg">Labor Register ID</string>
+    <string name="labor_details">Labor Details</string>
+    <string name="labor_full_name">Full Name</string>
+    <string name="labor_age">Age</string>
+    <string name="labor_contact">Contact No</string>
+    <string name="labor_nic">NIC No</string>
+    <string name="labor_reg_date">Registered Date</string>
+    <string name="labor_ads1">Address Line 1</string>
+    <string name="labor_ads2">Address Line 2</string>
+    <string name="labor_city">City</string>
+    <string name="labor_working_area">Working Section</string>
 </resources>
