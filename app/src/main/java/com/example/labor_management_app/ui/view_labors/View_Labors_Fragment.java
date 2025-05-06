@@ -1,15 +1,22 @@
 package com.example.labor_management_app.ui.view_labors;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class View_Labors_Fragment extends Fragment {
 
@@ -57,7 +65,7 @@ public class View_Labors_Fragment extends Fragment {
         initializeLaborDatabase();
         detailsScrollView.setVisibility(View.GONE);
 
-        // Load animation
+        // Button click animation
         final Animation buttonClickAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.button_click);
 
         // Employee ID text change listener
@@ -132,7 +140,7 @@ public class View_Labors_Fragment extends Fragment {
             CustomToast.showToast(requireContext(), "Labor details updated successfully", true);
         });
 
-        // Labor PF Button Click Listener
+        // Labor PF Button Click Listener - Now opens performance dialog
         laborPfBtn.setOnClickListener(v -> {
             v.startAnimation(buttonClickAnimation);
 
@@ -141,17 +149,53 @@ public class View_Labors_Fragment extends Fragment {
                 return;
             }
 
-            // Here you would typically navigate to a PF details fragment
-            // For now, we'll just show a toast
-            String laborName = laborDatabase.get(currentEmployeeId).get("fullName");
-            CustomToast.showToast(requireContext(),
-                    "Opening PF details for " + laborName, true);
-
-            // Example of navigation:
-            // Navigation.findNavController(v).navigate(R.id.action_to_pfFragment);
+            showPerformanceDialog();
         });
 
         return view;
+    }
+
+    private void showPerformanceDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.labor_performance_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Initialize dialog views
+        RatingBar ratingBar = dialog.findViewById(R.id.performance_rating);
+        ProgressBar efficiencyProgress = dialog.findViewById(R.id.efficiency_progress);
+        TextView attendanceText = dialog.findViewById(R.id.attendance_text);
+        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
+        Button btnSubmit = dialog.findViewById(R.id.btn_submit);
+
+        // Get labor data
+        String laborName = laborDatabase.get(currentEmployeeId).get("fullName");
+
+        // Generate random performance data (replace with real data in production)
+        Random random = new Random();
+        int efficiency = 65 + random.nextInt(30); // Random between 65-95
+        int attendance = 80 + random.nextInt(20); // Random between 80-100
+
+        // Set values
+        efficiencyProgress.setProgress(efficiency);
+        attendanceText.setText(attendance + "%");
+
+        // Button click listeners
+        btnCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+            CustomToast.showToast(requireContext(), "Performance review cancelled", false);
+        });
+
+        btnSubmit.setOnClickListener(v -> {
+            float rating = ratingBar.getRating();
+            dialog.dismiss();
+            String message = String.format("%s's performance rated %.1f/5", laborName, rating);
+            CustomToast.showToast(requireContext(), message, true);
+
+            // Here you would typically save the rating to your database
+        });
+
+        dialog.show();
     }
 
     private void setupWorkingAreaDropdown() {

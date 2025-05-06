@@ -20,4 +20,9 @@
     <color name="primaryDark">#303F9F</color>
     <color name="primaryLight">#C5CAE9</color>
     <color name="inputHintColor">#523C5F</color>
+
+    <color name="starGold">#FFC107</color>
+    <color name="greenSuccess">#4CAF50</color>
+    <color name="primaryDarkModal">#2A6987</color>
+    <color name="starGoldLight">#FFE082</color>
 </resources>

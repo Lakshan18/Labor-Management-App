@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation (libs.lifecycle.viewmodel.ktx.v251)
     implementation ("com.google.android.material:material:1.6.0")
+    implementation ("me.zhanghai.android.materialratingbar:library:1.4.0")
 }
