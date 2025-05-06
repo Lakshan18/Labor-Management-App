@@ -3,13 +3,13 @@
     android:fromDegrees="-90"
     android:toDegrees="-90">
     <shape
-        android:innerRadiusRatio="2.5"
+        android:innerRadiusRatio="3.1"
         android:shape="ring"
-        android:thickness="4dp"
+        android:thickness="12dp"
         android:useLevel="true">
         <gradient
             android:angle="0"
-            android:endColor="#4CAF50"
+            android:endColor="#347536"
             android:startColor="#4CAF50"
             android:type="sweep"/>
     </shape>

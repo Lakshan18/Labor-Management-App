@@ -2,10 +2,12 @@ package com.example.labor_management_app.ui.view_labors;
 
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -27,7 +30,10 @@ import com.example.labor_management_app.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -45,7 +51,6 @@ public class View_Labors_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_labors, container, false);
 
-        // Initialize views
         etEmployeeId = view.findViewById(R.id.etEmployeeId);
         detailsScrollView = view.findViewById(R.id.laborDetailsForm);
         autoCompleteWorkingArea = view.findViewById(R.id.autoCompleteWorkingArea);
@@ -65,10 +70,8 @@ public class View_Labors_Fragment extends Fragment {
         initializeLaborDatabase();
         detailsScrollView.setVisibility(View.GONE);
 
-        // Button click animation
         final Animation buttonClickAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.button_click);
 
-        // Employee ID text change listener
         etEmployeeId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -107,7 +110,6 @@ public class View_Labors_Fragment extends Fragment {
             }
         });
 
-        // Update Details Button Click Listener
         updateDetailsBtn.setOnClickListener(v -> {
             v.startAnimation(buttonClickAnimation);
 
@@ -116,20 +118,17 @@ public class View_Labors_Fragment extends Fragment {
                 return;
             }
 
-            // Get updated values
             String updatedContact = tvContact.getText().toString().trim();
             String updatedAddress1 = tvAddress1.getText().toString().trim();
             String updatedAddress2 = tvAddress2.getText().toString().trim();
             String updatedCity = tvCity.getText().toString().trim();
             String updatedWorkingArea = autoCompleteWorkingArea.getText().toString().trim();
 
-            // Validate inputs
             if (updatedContact.isEmpty() || updatedAddress1.isEmpty() || updatedCity.isEmpty()) {
                 CustomToast.showToast(requireContext(), "Please fill all required fields", false);
                 return;
             }
 
-            // Update labor data
             Map<String, String> laborData = laborDatabase.get(currentEmployeeId);
             laborData.put("contact", updatedContact);
             laborData.put("address1", updatedAddress1);
@@ -140,7 +139,6 @@ public class View_Labors_Fragment extends Fragment {
             CustomToast.showToast(requireContext(), "Labor details updated successfully", true);
         });
 
-        // Labor PF Button Click Listener - Now opens performance dialog
         laborPfBtn.setOnClickListener(v -> {
             v.startAnimation(buttonClickAnimation);
 
@@ -161,26 +159,32 @@ public class View_Labors_Fragment extends Fragment {
         dialog.setContentView(R.layout.labor_performance_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // Initialize dialog views
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
         RatingBar ratingBar = dialog.findViewById(R.id.performance_rating);
         ProgressBar efficiencyProgress = dialog.findViewById(R.id.efficiency_progress);
         TextView attendanceText = dialog.findViewById(R.id.attendance_text);
+        TextView monthYearText = dialog.findViewById(R.id.calendar_month_year);
+        GridLayout calendarGrid = dialog.findViewById(R.id.calendar_grid);
         Button btnCancel = dialog.findViewById(R.id.btn_cancel);
         Button btnSubmit = dialog.findViewById(R.id.btn_submit);
 
-        // Get labor data
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        monthYearText.setText(monthFormat.format(calendar.getTime()));
+
+        generateCalendar(calendarGrid, calendar);
+
         String laborName = laborDatabase.get(currentEmployeeId).get("fullName");
 
-        // Generate random performance data (replace with real data in production)
         Random random = new Random();
-        int efficiency = 65 + random.nextInt(30); // Random between 65-95
-        int attendance = 80 + random.nextInt(20); // Random between 80-100
+        int efficiency = 65 + random.nextInt(30);
+        int attendance = 80 + random.nextInt(20);
 
-        // Set values
         efficiencyProgress.setProgress(efficiency);
         attendanceText.setText(attendance + "%");
 
-        // Button click listeners
         btnCancel.setOnClickListener(v -> {
             dialog.dismiss();
             CustomToast.showToast(requireContext(), "Performance review cancelled", false);
@@ -191,11 +195,80 @@ public class View_Labors_Fragment extends Fragment {
             dialog.dismiss();
             String message = String.format("%s's performance rated %.1f/5", laborName, rating);
             CustomToast.showToast(requireContext(), message, true);
-
-            // Here you would typically save the rating to your database
         });
 
         dialog.show();
+    }
+
+    private void generateCalendar(GridLayout grid, Calendar calendar) {
+        grid.removeAllViews();
+
+        for (int i = 0; i < 7; i++) {
+            GridLayout.Spec rowSpec = GridLayout.spec(0, 1);
+            GridLayout.Spec colSpec = GridLayout.spec(i, 1);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
+            params.width = 0;
+            params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            params.setGravity(Gravity.CENTER);
+            params.columnSpec = GridLayout.spec(i, 1f);
+
+            TextView dayHeader = new TextView(getContext());
+            dayHeader.setText(getDayAbbreviation(i));
+            dayHeader.setTextColor(getResources().getColor(R.color.primaryDark));
+            dayHeader.setTextSize(12);
+            dayHeader.setTypeface(null, Typeface.BOLD);
+            dayHeader.setGravity(Gravity.CENTER);
+            grid.addView(dayHeader, params);
+        }
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int row = 1;
+        int col = firstDayOfWeek - 1;
+
+        for (int day = 1; day <= daysInMonth; day++) {
+            GridLayout.Spec rowSpec = GridLayout.spec(row, 1);
+            GridLayout.Spec colSpec = GridLayout.spec(col, 1);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
+            params.width = 0;
+            params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            params.setGravity(Gravity.CENTER);
+            params.columnSpec = GridLayout.spec(col, 1f);
+
+            TextView dayText = new TextView(getContext());
+            dayText.setText(String.valueOf(day));
+            dayText.setTextColor(getResources().getColor(R.color.primaryDark));
+            dayText.setTextSize(14);
+            dayText.setGravity(Gravity.CENTER);
+
+            if (day == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                dayText.setBackgroundResource(R.drawable.circle_bg_accent);
+                dayText.setTextColor(getResources().getColor(R.color.white));
+            }
+
+            grid.addView(dayText, params);
+
+            col++;
+            if (col > 6) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+    private String getDayAbbreviation(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY: return "Mo";
+            case Calendar.TUESDAY: return "Tu";
+            case Calendar.WEDNESDAY: return "We";
+            case Calendar.THURSDAY: return "Th";
+            case Calendar.FRIDAY: return "Fr";
+            case Calendar.SATURDAY: return "Sa";
+            case Calendar.SUNDAY: return "Su";
+            default: return "";
+        }
     }
 
     private void setupWorkingAreaDropdown() {

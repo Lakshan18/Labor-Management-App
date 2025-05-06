@@ -2,167 +2,212 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/dialog_background"
-        android:padding="24dp">
+        android:fillViewport="true">
 
-        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingBottom="16dp">
+            android:background="@drawable/dialog_background"
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_performance"
-                app:tint="@color/white"
-                android:background="@drawable/circle_bg_accent"
-                android:padding="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Performance Review"
-                android:textColor="@color/primaryDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/quicksand_regular"/>
-
-        </LinearLayout>
-
-        <!-- Rating Stars -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingVertical="16dp">
-
-            <RatingBar
-                android:id="@+id/performance_rating"
-                style="@style/Widget.AppCompat.RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:rating="3.5"
-                android:stepSize="0.5"/>
-
-        </LinearLayout>
-
-        <!-- Metrics Grid -->
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alignmentMode="alignMargins"
-            android:columnCount="2"
-            android:columnOrderPreserved="false"
-            android:padding="8dp"
-            android:rowCount="2">
-
-            <!-- Efficiency -->
+            <!-- Header -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp">
 
-                <ProgressBar
-                    android:id="@+id/efficiency_progress"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:max="100"
-                    android:progress="75"
-                    android:progressDrawable="@drawable/circular_progress" />
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/circle_bg_accent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_performance"
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
                     android:fontFamily="@font/quicksand_regular"
-                    android:text="Efficiency"
-                    android:textColor="@color/primaryDark" />
+                    android:text="Performance Review"
+                    android:textColor="@color/primaryDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-            <!-- Attendance -->
+            <!-- Rating Stars -->
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:paddingVertical="16dp">
 
-                <TextView
-                    android:id="@+id/attendance_text"
+                <RatingBar
+                    android:id="@+id/performance_rating"
+                    style="@style/Widget.AppCompat.RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/quicksand_regular"
-                    android:text="95%"
-                    android:textColor="@color/greenSuccess"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/quicksand_regular"
-                    android:text="Attendance"
-                    android:textColor="@color/primaryDark" />
+                    android:numStars="5"
+                    android:rating="3.5"
+                    android:stepSize="0.5" />
 
             </LinearLayout>
 
-        </GridLayout>
-
-        <!-- Action Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="24dp"
-            android:divider="@drawable/divider_vertical"
-            android:showDividers="middle">
-
-            <Button
-                android:id="@+id/btn_cancel"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
+            <!-- Metrics Grid -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancel"
-                android:textColor="@color/primaryColor"
-                android:fontFamily="@font/quicksand_regular"/>
+                android:orientation="vertical"
+                android:padding="8dp">
 
-            <Button
-                android:id="@+id/btn_submit"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="0dp"
+                <!-- Efficiency -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="120dp"
+                        android:layout_height="120dp">
+
+                        <ProgressBar
+                            android:id="@+id/efficiency_progress"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:max="100"
+                            android:progress="75"
+                            android:progressDrawable="@drawable/circular_progress"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="Efficiency"
+                        android:textColor="@color/primaryDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- Attendance -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15sp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/attendance_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="95%"
+                        android:textColor="@color/greenSuccess"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="Attendance"
+                        android:textColor="@color/primaryDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Calendar View -->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/calendar_month_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/quicksand_regular"
+                        android:text="May 2023"
+                        android:textColor="@color/primaryDark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/primaryLight" />
+
+                    <GridLayout
+                        android:id="@+id/calendar_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:columnCount="7"
+                        android:rowCount="6" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Submit"
-                android:backgroundTint="@color/primaryColor"
-                android:textColor="@color/white"
-                android:fontFamily="@font/quicksand_regular"/>
+                android:divider="@drawable/divider_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="24dp"
+                android:showDividers="middle">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:text="Cancel"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/primaryColor"
+                    android:fontFamily="@font/quicksand_regular"
+                    android:text="Submit"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 </androidx.cardview.widget.CardView>
