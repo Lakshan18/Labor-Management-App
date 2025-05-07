@@ -48,6 +48,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.lifecycle.viewmodel.ktx.v251)
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
     implementation ("com.google.android.material:material:1.6.0")
     implementation ("me.zhanghai.android.materialratingbar:library:1.4.0")
 }

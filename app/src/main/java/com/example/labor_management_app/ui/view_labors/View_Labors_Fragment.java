@@ -244,14 +244,15 @@ public class View_Labors_Fragment extends Fragment {
         int[] attendanceStats = calculateAttendanceStats(currentEmployeeId, currentDisplayMonth);
         int presentDays = attendanceStats[0];
         int absentDays = attendanceStats[1];
+        int totalDays = attendanceStats[2];
 
-        attendanceText.setText(calculateAttendancePercentage(presentDays, presentDays + absentDays) + "%");
         presentDaysText.setText(presentDays + " days");
         absentDaysText.setText(absentDays + " days");
+        attendanceText.setText(calculateAttendancePercentage(presentDays, totalDays) + "%");
     }
 
     private int[] calculateAttendanceStats(String laborId, Calendar month) {
-        int[] stats = new int[2]; // [0] = present, [1] = absent
+        int[] stats = new int[3];
         if (!laborAttendance.containsKey(laborId)) return stats;
 
         Calendar today = Calendar.getInstance();
@@ -260,14 +261,22 @@ public class View_Labors_Fragment extends Fragment {
         boolean isCurrentMonth = month.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
                 month.get(Calendar.MONTH) == today.get(Calendar.MONTH);
 
-        int daysToCount = isCurrentMonth ? currentDay : daysInMonth;
+        int daysToCount = isCurrentMonth ? currentDay - 1 : daysInMonth;
+        stats[2] = 0;
+
         List<Integer> attendedDays = laborAttendance.get(laborId);
 
         for (int day = 1; day <= daysToCount; day++) {
-            if (attendedDays.contains(day)) {
-                stats[0]++; // Present
-            } else {
-                stats[1]++; // Absent
+            month.set(Calendar.DAY_OF_MONTH, day);
+            int dayOfWeek = month.get(Calendar.DAY_OF_WEEK);
+
+            if (dayOfWeek != Calendar.SUNDAY) {
+                stats[2]++;
+                if (attendedDays.contains(day)) {
+                    stats[0]++; // Present
+                } else {
+                    stats[1]++; // Absent
+                }
             }
         }
         return stats;
@@ -315,7 +324,15 @@ public class View_Labors_Fragment extends Fragment {
                     dayView.setText("");
                     dayView.setBackgroundColor(Color.TRANSPARENT);
                 } else {
+                    if (i == 7) { // Sunday
+                        dayView.setBackgroundResource(R.drawable.holiday_rectangle);
+                        dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                    } else {
+                        dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.primaryDark));
+                    }
+
                     dayView.setText(String.valueOf(currentDay));
+
                     if (isCurrentMonth && currentDay == todayDay) {
                         dayView.setBackgroundResource(R.drawable.circle_bg_current_day);
                         dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
@@ -323,13 +340,12 @@ public class View_Labors_Fragment extends Fragment {
                     } else if (isCurrentMonth && currentDay > todayDay) {
                         dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.future_day));
                         dayView.setAlpha(0.6f);
-                    } else {
-                        dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.primaryDark));
+                    } else if (i != 7) {
                         if (laborAttendance.containsKey(currentEmployeeId) &&
                                 laborAttendance.get(currentEmployeeId).contains(currentDay)) {
                             dayView.setBackgroundResource(R.drawable.circle_bg_present);
                             dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                        } else if (!isCurrentMonth || currentDay <= todayDay) {
+                        } else if (!isCurrentMonth || currentDay < todayDay) {
                             dayView.setBackgroundResource(R.drawable.circle_bg_absent);
                             dayView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                         }

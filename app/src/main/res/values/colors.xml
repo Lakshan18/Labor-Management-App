@@ -29,4 +29,6 @@
 
     <color name="future_day">#808080</color>
     <color name="current_day">#1F7B99</color>
+
+    <color name="gold">#FFD700</color>
 </resources>
