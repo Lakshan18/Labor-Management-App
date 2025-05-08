@@ -1,36 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/labor_card_width"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:background="@drawable/labor_card_bg"
+    android:elevation="4dp"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/card_background">
+    android:paddingBottom="10dp">
 
+    <!-- Profile Image with decorative border -->
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_border_bg">
+
+        <ImageView
+            android:id="@+id/laborImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Labor image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_labor_placeholder" />
+    </FrameLayout>
+
+    <!-- Labor Name -->
     <TextView
-        android:id="@+id/tvLaborName"
+        android:id="@+id/laborName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="John Doe"
+        android:textColor="#333"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Rating Bar -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
+        <RatingBar
+            android:id="@+id/laborRatingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="4.5"
+            android:stepSize="0.1" />
+
+        <TextView
+            android:id="@+id/laborRatingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="4.5"
+            android:textColor="#FF9800"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Attendance Percentage with creative background -->
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:numStars="5"
-        android:rating="4"
-        android:stepSize="0.5"
-        />
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/attendancePercentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="98%"
+            android:textColor="#4CAF50"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/tvAttendance"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"/>
-
+        android:gravity="center"
+        android:text="attendance"
+        android:textColor="#757575"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 </LinearLayout>
