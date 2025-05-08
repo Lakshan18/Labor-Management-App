@@ -1,18 +1,20 @@
 package com.example.labor_management_app.ui.labor_attendance;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,11 +24,16 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.labor_management_app.CustomToast;
 import com.example.labor_management_app.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Labor_Attendance_Fragment extends Fragment {
 
@@ -41,6 +48,15 @@ public class Labor_Attendance_Fragment extends Fragment {
     private Button btnPresent, btnAbsent;
 
     private List<Labor_Attendance_View_Model> allLabors = new ArrayList<>();
+    private boolean isLaborSelected = false;
+
+    private static final String DEFAULT_TIME = "Set Time";
+    private String selectedInTime = DEFAULT_TIME;
+    private String selectedOutTime = DEFAULT_TIME;
+
+    public interface TimeSelectionListener {
+        void onTimeSelected(String inTime, String outTime);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +68,16 @@ public class Labor_Attendance_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize views
+        initializeViews(view);
+        setActiveFilter(weeklyFilter);
+        setupFilterListeners();
+        loadAllLabors();
+        loadWeeklyData();
+        setupLaborDropdown();
+        setupAttendanceButtons();
+    }
+
+    private void initializeViews(View view) {
         cardContainer = view.findViewById(R.id.cardContainer);
         weeklyFilter = view.findViewById(R.id.weeklyFilter);
         monthlyFilter = view.findViewById(R.id.monthlyFilter);
@@ -67,10 +92,10 @@ public class Labor_Attendance_Fragment extends Fragment {
         btnPresent = view.findViewById(R.id.btnPresent);
         btnAbsent = view.findViewById(R.id.btnAbsent);
 
-        // Set initial active filter
-        setActiveFilter(weeklyFilter);
+        selectedLaborCard.setVisibility(View.GONE);
+    }
 
-        // Setup click listeners for filters
+    private void setupFilterListeners() {
         weeklyFilter.setOnClickListener(v -> {
             setActiveFilter(weeklyFilter);
             loadWeeklyData();
@@ -85,15 +110,24 @@ public class Labor_Attendance_Fragment extends Fragment {
             setActiveFilter(yearlyFilter);
             loadYearlyData();
         });
+    }
 
-        // Load initial data
-        loadAllLabors();
-        loadWeeklyData();
-        setupLaborDropdown();
+    private void setupAttendanceButtons() {
+        btnPresent.setOnClickListener(v -> {
+            if (!isLaborSelected) {
+                CustomToast.showToast(requireContext(), "Please select a labor before marking attendance", false);
+                return;
+            }
+            markAttendance(true);
+        });
 
-        // Setup attendance buttons
-        btnPresent.setOnClickListener(v -> markAttendance(true));
-        btnAbsent.setOnClickListener(v -> markAttendance(false));
+        btnAbsent.setOnClickListener(v -> {
+            if (!isLaborSelected) {
+                CustomToast.showToast(requireContext(), "Please select a labor before marking attendance", false);
+                return;
+            }
+            markAttendance(false);
+        });
     }
 
     private void setActiveFilter(TextView activeFilter) {
@@ -178,7 +212,6 @@ public class Labor_Attendance_Fragment extends Fragment {
     }
 
     private void loadAllLabors() {
-        // This would come from your data source in a real app
         allLabors.add(new Labor_Attendance_View_Model("John Smith", 4.8f, 98, "https://example.com/image1.jpg"));
         allLabors.add(new Labor_Attendance_View_Model("Emma Johnson", 4.7f, 97, "https://example.com/image2.jpg"));
         allLabors.add(new Labor_Attendance_View_Model("Michael Brown", 4.6f, 96, "https://example.com/image3.jpg"));
@@ -187,13 +220,12 @@ public class Labor_Attendance_Fragment extends Fragment {
     }
 
     private void setupLaborDropdown() {
-        // Create list of labor names
         List<String> laborNames = new ArrayList<>();
+        laborNames.add("Select Labor"); // First item as default
         for (Labor_Attendance_View_Model labor : allLabors) {
             laborNames.add(labor.getName());
         }
 
-        // Create adapter for dropdown
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 R.layout.dropdown_menu_item,
@@ -201,9 +233,18 @@ public class Labor_Attendance_Fragment extends Fragment {
         );
 
         laborDropdown.setAdapter(adapter);
+        laborDropdown.setText("Select Labor", false);
+
         laborDropdown.setOnItemClickListener((parent, view, position, id) -> {
-            Labor_Attendance_View_Model selected = allLabors.get(position);
-            showSelectedLabor(selected);
+            if (position == 0) {
+                isLaborSelected = false;
+                selectedLaborCard.setVisibility(View.GONE);
+                CustomToast.showToast(requireContext(), "Please select a valid labor", false);
+            } else {
+                Labor_Attendance_View_Model selected = allLabors.get(position - 1);
+                isLaborSelected = true;
+                showSelectedLabor(selected);
+            }
         });
     }
 
@@ -221,20 +262,144 @@ public class Labor_Attendance_Fragment extends Fragment {
     }
 
     private void markAttendance(boolean isPresent) {
-        String laborName = selectedLaborName.getText().toString();
-        String status = isPresent ? "Present" : "Absent";
+        if (!isPresent) {
+            // Handle absent case
+            CustomToast.showToast(requireContext(), "Marked " + selectedLaborName.getText().toString() + " as Absent", true);
+            resetSelection();
+            return;
+        }
 
-        // Here you would save to your database
-        Toast.makeText(requireContext(),
-                "Marked " + laborName + " as " + status,
-                Toast.LENGTH_SHORT).show();
-
-        // Reset selection
-        laborDropdown.setText("");
-        selectedLaborCard.setVisibility(View.GONE);
+        // Show time selection dialog for present
+        showTimeSelectionDialog();
     }
 
-    // Sample data methods
+    private void showTimeSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_attendance_time, null);
+
+        // Initialize dialog views
+        Spinner spinnerInTime = dialogView.findViewById(R.id.spinnerInTime);
+        Spinner spinnerOutTime = dialogView.findViewById(R.id.spinnerOutTime);
+        Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+        Button btnReset = dialogView.findViewById(R.id.btnReset);
+        ImageView btnClose = dialogView.findViewById(R.id.btnClose);
+
+        // Generate time list
+        List<String> timeList = new ArrayList<>();
+        timeList.add(DEFAULT_TIME);
+        for (int hour = 6; hour <= 22; hour++) {
+            for (int minute = 0; minute < 60; minute += 30) {
+                String time = String.format("%02d:%02d", hour, minute);
+                timeList.add(time);
+            }
+        }
+
+        // Setup adapters
+        ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                timeList
+        );
+        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerInTime.setAdapter(timeAdapter);
+        spinnerOutTime.setAdapter(timeAdapter);
+
+        // Create dialog
+        AlertDialog dialog = builder.setView(dialogView).create();
+        dialog.setCanceledOnTouchOutside(false);
+
+        // Set listeners
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        spinnerInTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedInTime = timeList.get(position);
+                updateConfirmButtonState(btnConfirm);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spinnerOutTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedOutTime = timeList.get(position);
+                updateConfirmButtonState(btnConfirm);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        btnReset.setOnClickListener(v -> {
+            spinnerInTime.setSelection(0);
+            spinnerOutTime.setSelection(0);
+        });
+
+        btnConfirm.setOnClickListener(v -> {
+            if (isValidTimeSelection()) {
+                CustomToast.showToast(requireContext(),
+                        "Attendance marked with In: " + selectedInTime + " Out: " + selectedOutTime,
+                        true);
+                resetSelection();
+                dialog.dismiss();
+            } else {
+                CustomToast.showToast(requireContext(),
+                        "Please select valid times",
+                        false);
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void updateConfirmButtonState(Button btnConfirm) {
+        boolean isValid = isValidTimeSelection();
+        btnConfirm.setEnabled(isValid);
+        btnConfirm.setAlpha(isValid ? 1f : 0.5f);
+    }
+
+    private boolean isValidTimeSelection() {
+        return !selectedInTime.equals(DEFAULT_TIME) &&
+                !selectedOutTime.equals(DEFAULT_TIME) &&
+                isTimeOrderValid();
+    }
+
+    private boolean isTimeOrderValid() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Date inTime = sdf.parse(selectedInTime);
+            Date outTime = sdf.parse(selectedOutTime);
+            return outTime.after(inTime);
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    private void resetSelection() {
+        laborDropdown.setText("Select Labor", false);
+        isLaborSelected = false;
+        selectedLaborCard.setVisibility(View.GONE);
+        selectedInTime = DEFAULT_TIME;
+        selectedOutTime = DEFAULT_TIME;
+    }
+//    private void markAttendance(boolean isPresent) {
+//        String laborName = selectedLaborName.getText().toString();
+//        String status = isPresent ? "Present" : "Absent";
+//
+//        CustomToast.showToast(requireContext(), "Marked " + laborName + " as " + status, true);
+//
+//        laborDropdown.setText("Select Labor", false);
+//        isLaborSelected = false;
+//        selectedLaborCard.setVisibility(View.GONE);
+//    }
+
     private List<Labor_Attendance_View_Model> getWeeklyTopLabors() {
         return allLabors.subList(0, Math.min(5, allLabors.size()));
     }
