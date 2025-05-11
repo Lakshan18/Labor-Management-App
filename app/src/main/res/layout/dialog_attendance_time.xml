@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:backgroundTint="#EFEFEF"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
@@ -26,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:text="Set Attendance Time"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/btnClose"
@@ -34,7 +34,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_close"
-                app:tint="#666666"/>
+                app:tint="#666666" />
         </RelativeLayout>
 
         <!-- Time Selectors -->
@@ -47,55 +47,108 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:text="In Time"
-                android:textColor="#666666"
-                android:layout_marginBottom="4dp"/>
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColor="#242424" />
 
-            <Spinner
-                android:id="@+id/spinnerInTime"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inTimeDropdownLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/spinner_background"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint=""
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="#232323"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="1dp"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="#414141"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TextInputLayout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/inTimeDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:dropDownVerticalOffset="4dp"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:theme="@style/ThemeOverlay.Dropdown" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Out Time"
-                android:textColor="#666666"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:text="Out Time"
+                android:textSize="16sp"
+                android:fontFamily="@font/quicksand_regular"
+                android:textStyle="bold"
+                android:textColor="#242424" />
 
-            <Spinner
-                android:id="@+id/spinnerOutTime"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outTimeDropdownLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/spinner_background"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="16dp"
+                android:hint=""
+                app:boxStrokeColor="#414141"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="1dp"
+                app:boxBackgroundColor="#FFFFFF"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="#414141"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TextInputLayout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/outTimeDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:inputType="none"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="16sp"
+                    android:dropDownVerticalOffset="4dp"
+                    android:theme="@style/ThemeOverlay.Dropdown" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:gravity="end">
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reset"
-                android:textColor="#666666"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/transparent"
-                android:layout_marginEnd="8dp"/>
+                android:text="Reset"
+                android:textColor="#666666" />
 
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#4CAF50"
                 android:text="Confirm"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#4CAF50"/>
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -279,12 +279,14 @@ public class Labor_Attendance_Fragment extends Fragment {
         View dialogView = inflater.inflate(R.layout.dialog_attendance_time, null);
 
         // Initialize dialog views
-        Spinner spinnerInTime = dialogView.findViewById(R.id.spinnerInTime);
-        Spinner spinnerOutTime = dialogView.findViewById(R.id.spinnerOutTime);
+        AutoCompleteTextView inTimeDropdown = dialogView.findViewById(R.id.inTimeDropdown);
+        AutoCompleteTextView outTimeDropdown = dialogView.findViewById(R.id.outTimeDropdown);
         Button btnConfirm = dialogView.findViewById(R.id.btnConfirm);
         Button btnReset = dialogView.findViewById(R.id.btnReset);
         ImageView btnClose = dialogView.findViewById(R.id.btnClose);
 
+        btnConfirm.setEnabled(false);
+        btnConfirm.setAlpha(0.5f);
         // Generate time list
         List<String> timeList = new ArrayList<>();
         timeList.add(DEFAULT_TIME);
@@ -298,13 +300,14 @@ public class Labor_Attendance_Fragment extends Fragment {
         // Setup adapters
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(
                 requireContext(),
-                android.R.layout.simple_spinner_item,
+                R.layout.dropdown_menu_item,
                 timeList
         );
-        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinnerInTime.setAdapter(timeAdapter);
-        spinnerOutTime.setAdapter(timeAdapter);
+        inTimeDropdown.setAdapter(timeAdapter);
+        outTimeDropdown.setAdapter(timeAdapter);
+        inTimeDropdown.setText(DEFAULT_TIME, false);
+        outTimeDropdown.setText(DEFAULT_TIME, false);
 
         // Create dialog
         AlertDialog dialog = builder.setView(dialogView).create();
@@ -313,33 +316,22 @@ public class Labor_Attendance_Fragment extends Fragment {
         // Set listeners
         btnClose.setOnClickListener(v -> dialog.dismiss());
 
-        spinnerInTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedInTime = timeList.get(position);
-                updateConfirmButtonState(btnConfirm);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        inTimeDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            selectedInTime = timeList.get(position);
+            updateConfirmButtonState(btnConfirm);
         });
 
-        spinnerOutTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedOutTime = timeList.get(position);
-                updateConfirmButtonState(btnConfirm);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        outTimeDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            selectedOutTime = timeList.get(position);
+            updateConfirmButtonState(btnConfirm);
         });
 
         btnReset.setOnClickListener(v -> {
-            spinnerInTime.setSelection(0);
-            spinnerOutTime.setSelection(0);
+            inTimeDropdown.setText(DEFAULT_TIME, false);
+            outTimeDropdown.setText(DEFAULT_TIME, false);
+            selectedInTime = DEFAULT_TIME;
+            selectedOutTime = DEFAULT_TIME;
+            updateConfirmButtonState(btnConfirm);
         });
 
         btnConfirm.setOnClickListener(v -> {
