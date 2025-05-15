@@ -1,28 +1,35 @@
 package com.example.labor_management_app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameField, passwordField;
     private Button loginBtn;
 
+    private FirebaseFirestore db;
+
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        db = FirebaseFirestore.getInstance();
+        sharedPreferences = getSharedPreferences("SupervisorSession", Context.MODE_PRIVATE);
 
         usernameField = findViewById(R.id.Edit_Username_inp1);
         passwordField = findViewById(R.id.editTextTextPassword);
@@ -47,26 +54,44 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserInDB(String username, String password) {
-        if (isValidUser(username, password)) {
-            navigateToHome(username,password);
-        } else {
-            showLoginError();
-        }
+
+        db.collection("supervisor")
+                .whereEqualTo("username",username)
+                .get()
+                .addOnCompleteListener(task -> {
+                   if(task.isSuccessful()){
+                       QuerySnapshot querySnapshot = task.getResult();
+                       if(querySnapshot != null && !querySnapshot.isEmpty()){
+                          for(QueryDocumentSnapshot documentSnapshot : querySnapshot){
+                              Log.d("Firestore Data :", documentSnapshot.getData().toString());
+
+                              String supervisorId = documentSnapshot.getId();
+                              String dbPassword = documentSnapshot.getString("password");
+                              String dbMobile = documentSnapshot.getString("mobile");
+
+
+                              if(password.equals(dbPassword)){
+                                  SharedPreferences.Editor editor = sharedPreferences.edit();
+                                  editor.putString("supId",supervisorId);
+                                  editor.putString("supMobile", dbMobile);
+                                  editor.putLong("lastLoggedTime",System.currentTimeMillis());
+                                  editor.apply();
+
+                                  navigateToHome();
+                              }else{
+                                  CustomToast.showToast(LoginActivity.this,"Invalid Credentials!",false);
+                              }
+                          }
+                       }
+                   }
+                });
     }
 
-    private boolean isValidUser(String username, String password) {
-        return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password);
-    }
-
-    private void navigateToHome(String uname,String pwd) {
-        CustomToast.showToast(this,uname+" & "+ pwd, true);
+    private void navigateToHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    private void showLoginError() {
-        CustomToast.showToast(this, "Invalid credentials", false);
     }
 }

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -55,4 +56,9 @@ dependencies {
     implementation ("com.daimajia.easing:library:2.4@aar")
     implementation ("com.daimajia.androidanimations:library:2.4@aar")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+//    firebase implementation......
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage:21.0.1")
 }

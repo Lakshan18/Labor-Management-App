@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "146419149508",
+    "project_id": "labor-management-app-9a062",
+    "storage_bucket": "labor-management-app-9a062.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146419149508:android:8e7d9de82baabb5c47f791",
+        "android_client_info": {
+          "package_name": "com.example.labor_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9alO9-z_AMl3uIdZhwuBT5JFQil-sF5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

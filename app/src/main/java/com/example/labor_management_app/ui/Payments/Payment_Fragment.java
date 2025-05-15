@@ -42,14 +42,21 @@ public class Payment_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        paymentList.add(new Payment(1, "John Doe", "3500.00", 2));
-        paymentList.add(new Payment(2, "Alice Smith", "3500.00", 2));
-        paymentList.add(new Payment(3, "Bob Johnson", "1750.00", 1));
-        paymentList.add(new Payment(4, "Lakshan Maduranga", "5250.00", 3));
-        paymentList.add(new Payment(5, "Vihanga Heshan", "5250.00", 3));
+        List<Payment.WorkDay> aliceWorkDays = new ArrayList<>();
+        aliceWorkDays.add(new Payment.WorkDay("Monday", "8:00 AM - 5:00 PM"));
+        aliceWorkDays.add(new Payment.WorkDay("Wednesday", "7:00 AM - 5:00 PM"));
+        aliceWorkDays.add(new Payment.WorkDay("Thursday", "8:00 AM - 5:00 PM"));
 
-        laborCount.setText(paymentList.size()+" "+"Labors");
-        paymentAdapter = new PaymentAdapter(paymentList);
+        List<Payment.WorkDay> johnFoeWorkDays = new ArrayList<>();
+        johnFoeWorkDays.add(new Payment.WorkDay("Monday", "8:00 AM - 5:00 PM"));
+        johnFoeWorkDays.add(new Payment.WorkDay("Wednesday", "Absent"));
+        johnFoeWorkDays.add(new Payment.WorkDay("Thursday", "7:00 AM - 5:00 PM"));
+
+        paymentList.add(new Payment(1, "Alice Smith", aliceWorkDays));
+        paymentList.add(new Payment(2, "John Foster", johnFoeWorkDays));
+
+        laborCount.setText(paymentList.size() + " Labors");
+        paymentAdapter = new PaymentAdapter(paymentList, requireContext());
         payoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         payoutsRecyclerView.setAdapter(paymentAdapter);
     }
