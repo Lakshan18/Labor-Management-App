@@ -59,4 +59,6 @@
     <string name="labor_working_area">Working Section</string>
     <string name="labor_upd_btn">Update Details</string>
     <string name="labor_pf_btn">Labor Performance</string>
+
+    <string name="rem_payouts">Remaining Payouts</string>
 </resources>

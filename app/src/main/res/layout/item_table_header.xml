@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="3dp"
+    android:background="#296976"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/headerLNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="LNo"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.4"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Name"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headerAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Amount(Rs)"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headerDayCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Day Count"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+</LinearLayout>

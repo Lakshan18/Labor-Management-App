@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#E9E9E9"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tvLNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#161616" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.4"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="John Doe"
+        android:textColor="#161616" />
+
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Rs:5200.00"
+        android:textColor="#161616" />
+
+    <TextView
+        android:id="@+id/tvDayCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="3"
+        android:textColor="#161616" />
+</LinearLayout>
